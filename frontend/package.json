@@ -34,6 +34,7 @@
 		"zod": "^3.24.2"
 	},
 	"dependencies": {
+		"chart.js": "^4.4.8",
 		"lucide-svelte": "^0.475.0",
 		"mode-watcher": "^0.5.1",
 		"moment": "^2.30.1",

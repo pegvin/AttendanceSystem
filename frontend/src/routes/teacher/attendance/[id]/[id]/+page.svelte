@@ -9,6 +9,7 @@
     import GoBack from "$lib/goback";
     import { LoaderCircle } from "lucide-svelte";
     import type { Props } from "./props";
+    import moment from "moment";
 
 	const { data } = $props();
 	let d : Props = $state(structuredClone($state.snapshot(data.data)));
@@ -52,9 +53,13 @@
 	</Button>
 </div>
 
+<div class="my-2 w-full text-center">
+	<h1>Attendance Of {moment(data.data.on).format("DD/MM/YYYY")}</h1>
+</div>
+
 <Separator class="my-4" />
 
-<Table.Root class="w-fit">
+<Table.Root class="w-fit mx-auto border">
 	<Table.Header>
 		<Table.Row>
 			<Table.Head class="text-center">Present</Table.Head>

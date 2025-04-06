@@ -10,6 +10,7 @@
     import { LoaderCircle, Trash } from "lucide-svelte";
     import { toast } from "svelte-sonner";
     import SearchSelect from "./search-select.svelte";
+	import GoBack from "$lib/goback";
 
 	const { data } = $props();
 
@@ -77,88 +78,95 @@
 	}
 </script>
 
-<Dialog.Root bind:open={IsOpen}>
-	<Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Add New Course</Dialog.Trigger>
-	<Dialog.Content class="w-fit">
-		<Dialog.Header>
-			<Dialog.Title>Add New Course</Dialog.Title>
-			<Dialog.Description>
-				Enter the details here. Click "Add" when you're done.
-			</Dialog.Description>
-		</Dialog.Header>
-		<form onsubmit={OnSubmit}>
-			<div class="grid gap-4 py-4">
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_name" class="text-right">Course Name</Label>
-					<Input id="course_name" class="col-span-3" bind:value={CourseData.name} />
-				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_code" class="text-right">Course Code</Label>
-					<Input id="course_code" class="col-span-3" bind:value={CourseData.code} />
-				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_sem" class="text-right">Semester</Label>
-					<Input id="course_sem" class="col-span-3" type="number" min={1} step={1} bind:value={CourseData.semester} />
-				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_prog" class="text-right">Programme</Label>
-					<Input id="course_prog" class="col-span-3" bind:value={CourseData.programme} />
-				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_faculty" class="text-right">Faculty</Label>
-					<SearchSelect
-						id="course_faculty"
-						Placeholder="Choose Faculty..."
-						NotFoundPlaceholder="No Faculty Found..."
-						Multiple={false}
-						Items={data.data.faculty.map((f) => { return { label: `${f.name} (${f.email})`, value: `${f.name} ${f.email}` } })}
-						OnSelect={(v) => {
-							if (v.length == 0) {
-								CourseData.faculty = "";
-							} else {
-								let id = data.data.faculty.find((f) => {
-									return `${f.name} ${f.email}` == v[0];
-								})?.id;
-								if (id) {
-									CourseData.faculty = id;
+<div>
+	<Button variant="outline" onclick={() => GoBack(2)}>Go Back</Button>
+	<Dialog.Root bind:open={IsOpen}>
+		<Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Add New Course</Dialog.Trigger>
+		<Dialog.Content class="w-fit">
+			<Dialog.Header>
+				<Dialog.Title>Add New Course</Dialog.Title>
+				<Dialog.Description>
+					Enter the details here. Click "Add" when you're done.
+				</Dialog.Description>
+			</Dialog.Header>
+			<form onsubmit={OnSubmit}>
+				<div class="grid gap-4 py-4">
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_name" class="text-right">Course Name</Label>
+						<Input id="course_name" class="col-span-3" bind:value={CourseData.name} />
+					</div>
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_code" class="text-right">Course Code</Label>
+						<Input id="course_code" class="col-span-3" bind:value={CourseData.code} />
+					</div>
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_sem" class="text-right">Semester</Label>
+						<Input id="course_sem" class="col-span-3" type="number" min={1} step={1} bind:value={CourseData.semester} />
+					</div>
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_prog" class="text-right">Programme</Label>
+						<Input id="course_prog" class="col-span-3" bind:value={CourseData.programme} />
+					</div>
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_faculty" class="text-right">Faculty</Label>
+						<SearchSelect
+							id="course_faculty"
+							Placeholder="Choose Faculty..."
+							NotFoundPlaceholder="No Faculty Found..."
+							Multiple={false}
+							Items={data.data.faculty.map((f) => { return { label: `${f.name} (${f.email})`, value: `${f.name} ${f.email}` } })}
+							OnSelect={(v) => {
+								if (v.length == 0) {
+									CourseData.faculty = "";
+								} else {
+									let id = data.data.faculty.find((f) => {
+										return `${f.name} ${f.email}` == v[0];
+									})?.id;
+									if (id) {
+										CourseData.faculty = id;
+									}
 								}
-							}
-						}}
-					/>
+							}}
+						/>
+					</div>
+					<div class="grid grid-cols-4 items-center gap-4">
+						<Label for="course_students" class="text-right">Students</Label>
+						<SearchSelect
+							id="course_students"
+							Placeholder="Choose Students..."
+							NotFoundPlaceholder="No Student Found..."
+							Multiple={true}
+							Items={data.data.students.map((s) => { return { label: `${s.name} (${s.email})`, value: `${s.name} ${s.email}` } })}
+							OnSelect={(v) => {
+								CourseData.students = data.data.students.filter((s) => {
+									return v.includes(`${s.name} ${s.email}`);
+								}).map((s) => s.id);
+							}}
+						/>
+					</div>
 				</div>
-				<div class="grid grid-cols-4 items-center gap-4">
-					<Label for="course_students" class="text-right">Students</Label>
-					<SearchSelect
-						id="course_students"
-						Placeholder="Choose Students..."
-						NotFoundPlaceholder="No Student Found..."
-						Multiple={true}
-						Items={data.data.students.map((s) => { return { label: `${s.name} (${s.email})`, value: `${s.name} ${s.email}` } })}
-						OnSelect={(v) => {
-							CourseData.students = data.data.students.filter((s) => {
-								return v.includes(`${s.name} ${s.email}`);
-							}).map((s) => s.id);
-						}}
-					/>
-				</div>
-			</div>
-			<Dialog.Footer class="self-end">
-				<Button type="submit" disabled={IsAdding}>
-					{#if IsAdding}
-						<LoaderCircle class="animate-spin" />
-						Please wait
-					{:else}
-						Add
-					{/if}
-				</Button>
-			</Dialog.Footer>
-		</form>
-	</Dialog.Content>
-</Dialog.Root>
+				<Dialog.Footer class="self-end">
+					<Button type="submit" disabled={IsAdding}>
+						{#if IsAdding}
+							<LoaderCircle class="animate-spin" />
+							Please wait
+						{:else}
+							Add
+						{/if}
+					</Button>
+				</Dialog.Footer>
+			</form>
+		</Dialog.Content>
+	</Dialog.Root>
+</div>
+
+<div class="my-2 w-full text-center">
+	<h1>Manage Courses</h1>
+</div>
 
 <Separator class="my-4" />
 
-<Table.Root class="w-fit">
+<Table.Root class="w-fit border mx-auto">
 	<Table.Header>
 		<Table.Row>
 			<Table.Head>Course Name</Table.Head>

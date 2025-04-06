@@ -8,7 +8,6 @@
 	enum Visibility {
 		Admin = 0,
 		Teacher,
-		Parent,
 		Student,
 		Invalid
 	};
@@ -17,7 +16,6 @@
 		switch (role.toLowerCase()) {
 			case "admin":   return Visibility.Admin; break;
 			case "teacher": return Visibility.Teacher; break;
-			case "parent":  return Visibility.Parent; break;
 			case "student": return Visibility.Student; break;
 			default:        return Visibility.Invalid; break;
 		}
@@ -53,17 +51,11 @@
 			]
 		},
 		{
-			Label: "Parent Dashboard",
-			For: Visibility.Parent,
-			Content: [
-				{ Label: "Home", Link: "/" },
-			]
-		},
-		{
 			Label: "Student Dashboard",
 			For: Visibility.Student,
 			Content: [
 				{ Label: "Home", Link: "/" },
+				{ Label: "View Attendance", Link: "/student/attendance/" },
 			]
 		}
 	];

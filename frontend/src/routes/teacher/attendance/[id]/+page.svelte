@@ -84,9 +84,13 @@
 	</Dialog.Root>
 </div>
 
+<div class="my-2 w-full text-center">
+	<h1>{data.data.course.name} ({data.data.course.code})</h1>
+</div>
+
 <Separator class="my-4" />
 
-<Table.Root class="w-fit">
+<Table.Root class="w-fit border mx-auto">
 	<Table.Header>
 		<Table.Row>
 			<Table.Head>Date</Table.Head>

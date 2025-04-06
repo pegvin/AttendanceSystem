@@ -36,7 +36,7 @@
 			<Table.Cell>{d.programme}</Table.Cell>
 			<Table.Cell>{d.semester}</Table.Cell>
 			<Table.Cell class="text-center">
-				<Button href={`/teacher/attendance/${d.id}`} type="button" variant="outline" size="icon">
+				<Button href={`/student/attendance/${d.id}`} type="button" variant="outline" size="icon">
 					<Eye />
 				</Button>
 			</Table.Cell>
