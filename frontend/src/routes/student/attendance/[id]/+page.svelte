@@ -70,7 +70,7 @@
 		if ($currentUser) {
 			const c = FindClassOn(date);
 			if (c) {
-				return c.present.includes($currentUser.id) ? "#84cc16" : "#ef4444";
+				return c.present.includes($currentUser.id) ? "text-green-400" : "text-red-400";
 			}
 		}
 		return undefined;
@@ -116,16 +116,16 @@
 								<Calendar.GridRow class="mt-2 w-full">
 									{#each weekDates as date (date)}
 										{#if FindClassOn(date)}
-											<Calendar.Cell class={`select-none text-[${ColorBasedOnPresent(date)}]`} {date} month={month.value}>
-												<Button class="p-2 w-9" disabled={date.month != month.value.month} variant="ghost">
+											<Calendar.Cell class="select-none" {date} month={month.value}>
+												<Button class={`p-2 w-9 ${ColorBasedOnPresent(date)}`} disabled={date.month != month.value.month} variant="ghost">
 													{date.day}
-												</Button>		
+												</Button>
 											</Calendar.Cell>
 										{:else}
 											<Calendar.Cell class="select-none" {date} month={month.value}>
 												<Button class="p-2 w-9" disabled={date.month != month.value.month} variant="ghost">
 													{date.day}
-												</Button>		
+												</Button>
 											</Calendar.Cell>
 										{/if}
 									{/each}
